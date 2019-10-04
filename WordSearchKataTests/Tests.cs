@@ -128,5 +128,17 @@ namespace WordSearchKataTests
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }
+
+        [TestMethod]
+        public void FindDiagonalWordsInAllFourDirectionsReturnsListsOfLocations()
+        {
+            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
+            new List<string> { "KITKAT", "TWIX", "MILKYWAY", "SNICKERS" }.ForEach(wordToFind =>
+            {
+                var expectedLocations = locations[wordToFind];
+                var returnedLocations = WordSearch.FindWordDiagonal(wordToFind, loadedLetters);
+                Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
+            });
+        }
     }
 }
