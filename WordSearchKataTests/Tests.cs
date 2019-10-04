@@ -89,5 +89,19 @@ namespace WordSearchKataTests
             var returnedLocations = WordSearch.FindWordHorizontalLeftToRight(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
+
+        [TestMethod]
+        public void FindWordHorizontalRightToLeftReturnsListOfLocations()
+        {
+            string wordToFind = "CRUNCH";
+            var expectedLocations = new List<(int, int)>()
+            {
+                (21, 10), (20, 10), (19, 10), (18, 10), (17, 10), (16, 10)
+            };
+
+            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
+            var returnedLocations = WordSearch.FindWordHorizontalRightToLeft(wordToFind, loadedLetters);
+            Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
+        }
     }
 }

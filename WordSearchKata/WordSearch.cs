@@ -42,7 +42,7 @@ namespace WordSearchKata
                 return grid;
             }
         }
-
+        
         public static List<(int, int)> FindWordHorizontalLeftToRight(string word, char[,] grid)
         {
             for (int row = 0; row < grid.GetLength(0); row++)
@@ -63,6 +63,36 @@ namespace WordSearchKata
                                 break;
                             }
                             locations.Add((col + i, row));
+                        }
+
+                        if (found)
+                            return locations;
+                    }
+                }
+            }
+            return new List<(int, int)>();
+        }
+
+        public static List<(int, int)> FindWordHorizontalRightToLeft(string word, char[,] grid)
+        {
+            for (int row = 0; row < grid.GetLength(0); row++)
+            {
+                for (int col = 0; col < grid.GetLength(1); col++)
+                {
+                    //if first letter found and enough space on the line for the word to fit
+                    if (grid[row, col] == word[0] && col - word.Length > 0)
+                    {
+                        var locations = new List<(int, int)>() { (col, row) };
+
+                        bool found = true;
+                        for (int i = 1; i < word.Length; i++)
+                        {
+                            if (grid[row, col - i] != word[i])
+                            {
+                                found = false;
+                                break;
+                            }
+                            locations.Add((col - i, row));
                         }
 
                         if (found)
