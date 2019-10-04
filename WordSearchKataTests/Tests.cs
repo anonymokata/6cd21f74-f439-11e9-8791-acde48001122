@@ -116,5 +116,17 @@ namespace WordSearchKataTests
             var returnedLocations = WordSearch.FindWordHorizontal(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
+
+        [TestMethod]
+        public void FindWordVerticalReturnsListOfLocationsForBothDirections()
+        {
+            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
+            new List<string> { "REECES", "BUTTERFINGER" }.ForEach(wordToFind =>
+            {
+                var expectedLocations = locations[wordToFind];
+                var returnedLocations = WordSearch.FindWordVertical(wordToFind, loadedLetters);
+                Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
+            });
+        }
     }
 }

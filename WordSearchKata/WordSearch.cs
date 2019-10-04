@@ -56,7 +56,6 @@ namespace WordSearchKata
                         for (int direction = -1; direction <= 1; direction += 2)
                         {
                             int end = col + (word.Length - 1) * direction;
-
                             int left = Math.Min(col, end);
                             int right = Math.Max(col, end);
 
@@ -73,6 +72,47 @@ namespace WordSearchKata
                                         break;
                                     }
                                     locations.Add((newCol, row));
+                                }
+
+                                if (found)
+                                    return locations;
+                            }
+                        }
+                    }
+                }
+            }
+            return new List<(int, int)>();
+        }
+
+        public static List<(int, int)> FindWordVertical(string word, char[,] grid)
+        {
+            for (int row = 0; row < grid.GetLength(0); row++)
+            {
+                for (int col = 0; col < grid.GetLength(1); col++)
+                {
+                    //if first letter found and enough space on the line for the word to fit
+                    if (grid[row, col] == word[0])
+                    {
+                        var locations = new List<(int, int)>() { (col, row) };
+                        for (int direction = -1; direction <= 1; direction += 2)
+                        {
+                            int end = row + (word.Length - 1) * direction;
+                            int top = Math.Min(row, end);
+                            int bottom = Math.Max(row, end);
+
+                            //skip check if word can't fit within bounds in given direction
+                            if (top >= 0 && bottom < grid.GetLength(0))
+                            {
+                                bool found = true;
+                                for (int i = 1; i < word.Length; i++)
+                                {
+                                    int newRow = direction == 1 ? top + i : bottom - i;
+                                    if (grid[newRow, col] != word[i])
+                                    {
+                                        found = false;
+                                        break;
+                                    }
+                                    locations.Add((col, newRow));
                                 }
 
                                 if (found)
