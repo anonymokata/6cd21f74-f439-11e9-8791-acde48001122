@@ -50,7 +50,7 @@ namespace WordSearchKata
                 for (int col = 0; col < grid.GetLength(1); col++)
                 {
                     //if first letter found and enough space on the line for the word to fit
-                    if (grid[row, col] == word[0] && row + word.Length < grid.GetLength(1))
+                    if (grid[row, col] == word[0] && col + word.Length < grid.GetLength(1))
                     {
                         var locations = new List<(int, int)>() { (col, row) };
 
