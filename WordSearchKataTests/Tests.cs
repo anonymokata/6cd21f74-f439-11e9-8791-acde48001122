@@ -96,7 +96,7 @@ namespace WordSearchKataTests
         }
 
         [TestMethod]
-        public void FindWordHorizontalLeftToRightReturnsListOfLocations()
+        public void FindHorizontalLeftToRightWordReturnsListOfLocations()
         {
             string wordToFind = "HERSHEYS";
             var expectedLocations = locations[wordToFind];
@@ -107,7 +107,7 @@ namespace WordSearchKataTests
         }
 
         [TestMethod]
-        public void FindWordHorizontalRightToLeftReturnsListOfLocations()
+        public void FindHorizontalRightToLeftWordReturnsListOfLocations()
         {
             string wordToFind = "CRUNCH";
             var expectedLocations = locations[wordToFind];
@@ -118,7 +118,7 @@ namespace WordSearchKataTests
         }
 
         [TestMethod]
-        public void FindWordVerticalReturnsListOfLocationsForBothDirections()
+        public void FindVerticalWordsInBothDirectionsReturnsListsOfLocations()
         {
             char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
             new List<string> { "REECES", "BUTTERFINGER" }.ForEach(wordToFind =>

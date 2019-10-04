@@ -7,8 +7,6 @@ namespace WordSearchKata
 {
     public class WordSearch
     {
-        public enum HorizontalOrder { LeftToRight, RightToLeft }
-
         public const char DELIMITER = ',';
 
         public static string[] GetWordsFromFile(string path)
