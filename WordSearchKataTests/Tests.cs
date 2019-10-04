@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordSearchKata;
 
@@ -56,6 +57,20 @@ namespace WordSearchKataTests
                 }
             }
             Assert.IsTrue(lettersAreSame);
+        }
+
+        [TestMethod]
+        public void FindWordHorizontalLeftToRightReturnsListOfLocations()
+        {
+            string wordToFind = "SCOTTY";
+            var expectedLocations = new List<(int, int)>()
+            {
+                (0,5), (1,5), (2,5), (3,5), (4,5), (5,5)
+            };
+
+            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
+            var returnedLocations = WordSearch.FindWordHorizontalLeftToRight(wordToFind, loadedLetters);
+            Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
     }
 }
