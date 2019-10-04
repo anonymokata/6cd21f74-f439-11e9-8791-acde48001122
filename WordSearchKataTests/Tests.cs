@@ -86,7 +86,7 @@ namespace WordSearchKataTests
             };
 
             char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWordHorizontalLeftToRight(wordToFind, loadedLetters);
+            var returnedLocations = WordSearch.FindWordHorizontal(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
 
@@ -100,7 +100,7 @@ namespace WordSearchKataTests
             };
 
             char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWordHorizontalRightToLeft(wordToFind, loadedLetters);
+            var returnedLocations = WordSearch.FindWordHorizontal(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
     }
