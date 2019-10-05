@@ -9,46 +9,42 @@ namespace WordSearchKata
     {
         public const char DELIMITER = ',';
 
-        public static string[] GetWordsFromFile(string path)
+        public string[] Words { get; private set; }
+        public char[,] Grid { get; private set; }
+
+        public WordSearch(string path)
         {
-            using (var file = File.OpenRead(path))
-            using (var stream = new StreamReader(file))
-            {
-                return stream.ReadLine().Split(DELIMITER);
-            }
+            LoadFromFile(path);
         }
 
-        public static char[,] GetGridFromFile(string path)
+        private void LoadFromFile(string path)
         {
             using (var file = File.OpenRead(path))
             using (var stream = new StreamReader(file))
             {
-                //skip first line with list of words
-                stream.ReadLine();
+                Words = stream.ReadLine().Split(DELIMITER);
 
                 var lines = new List<string>();
-
                 while (!stream.EndOfStream)
                     lines.Add(stream.ReadLine().Replace(DELIMITER.ToString(), ""));
 
-                char[,] grid = new char[lines.Count, lines.Count];
+                Grid = new char[lines.Count, lines.Count];
                 for (int row = 0; row < lines.Count; row++)
                 {
                     for (int col = 0; col < lines.Count; col++)
-                        grid[row, col] = lines[row][col];
+                        Grid[row, col] = lines[row][col];
                 }
-                return grid;
             }
         }
 
-        public static List<(int, int)> FindWord(string word, char[,] grid)
+        public List<(int, int)> FindWord(string word)
         {
-            for (int row = 0; row < grid.GetLength(0); row++)
+            for (int row = 0; row < Grid.GetLength(0); row++)
             {
-                for (int col = 0; col < grid.GetLength(1); col++)
+                for (int col = 0; col < Grid.GetLength(1); col++)
                 {
                     //if first letter found, search the eight directions for the remaining letters, otherwise move on
-                    if (grid[row, col] != word[0])
+                    if (Grid[row, col] != word[0])
                         continue;
 
                     //-1: left-right, 0: constant, 1: right-left
@@ -69,22 +65,20 @@ namespace WordSearchKata
                             int bottom = Math.Max(row, endY);
 
                             //skip check if word can't fit within bounds in given direction
-                            if (left < 0 || right >= grid.GetLength(1) || top < 0 || bottom >= grid.GetLength(0))
+                            if (left < 0 || right >= Grid.GetLength(1) || top < 0 || bottom >= Grid.GetLength(0))
                                 continue;
 
                             var locations = new List<(int, int)>() { (col, row) };
                             bool found = true;
                             for (int i = 1; i < word.Length; i++)
                             {
-                                int newCol = directionX == 0 ? left : left + i;
-                                if (directionX < 0)
-                                    newCol = right - i;
-
                                 int newRow = directionY == 0 ? top : top + i;
-                                if (directionY < 0)
-                                    newRow = bottom - i;
+                                newRow = directionY < 0 ? bottom - i : newRow;
 
-                                if (grid[newRow, newCol] != word[i])
+                                int newCol = directionX == 0 ? left : left + i;
+                                newCol = directionX < 0 ? right - i : newCol;
+
+                                if (Grid[newRow, newCol] != word[i])
                                 {
                                     found = false;
                                     break;

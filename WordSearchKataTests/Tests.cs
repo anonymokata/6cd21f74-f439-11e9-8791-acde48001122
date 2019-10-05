@@ -66,25 +66,24 @@ namespace WordSearchKataTests
             {'M','Q','Y','B','I','S','A','B','T','T','I','A','C','Y','A','F','C','S','X','H','Q','R','H','O','W','E','M','C','H','E','Z','K'}
         };
 
+        WordSearch wordSearch = new WordSearch("input.txt");
 
         [TestMethod]
         public void GetWordsFromFileReturnsArrayOfWords()
         {
             var expectedWords = locations.Keys.ToArray();
-            string[] loadedWords = WordSearch.GetWordsFromFile("input.txt");
-            Assert.IsTrue(loadedWords.SequenceEqual(expectedWords));
+            Assert.IsTrue(wordSearch.Words.SequenceEqual(expectedWords));
         }
 
         [TestMethod]
         public void GetGridFromFileReturnsArrayOfLetters()
         {
-            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
             bool lettersAreSame = true;
             for (int row = 0; row < expectedLetters.GetLength(0); row++)
             {
                 for (int col = 0; col < expectedLetters.GetLength(1); col++)
                 {
-                    if (loadedLetters[row, col] != expectedLetters[row, col])
+                    if (wordSearch.Grid[row, col] != expectedLetters[row, col])
                     {
                         lettersAreSame = false;
                         row = int.MaxValue - 1;
@@ -100,9 +99,7 @@ namespace WordSearchKataTests
         {
             string wordToFind = "HERSHEYS";
             var expectedLocations = locations[wordToFind];
-
-            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
+            var returnedLocations = wordSearch.FindWord(wordToFind);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
 
@@ -111,20 +108,17 @@ namespace WordSearchKataTests
         {
             string wordToFind = "CRUNCH";
             var expectedLocations = locations[wordToFind];
-
-            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
+            var returnedLocations = wordSearch.FindWord(wordToFind);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
 
         [TestMethod]
         public void FindVerticalWordsInBothDirectionsReturnsListsOfLocations()
         {
-            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
             new List<string> { "REECES", "BUTTERFINGER" }.ForEach(wordToFind =>
             {
                 var expectedLocations = locations[wordToFind];
-                var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
+                var returnedLocations = wordSearch.FindWord(wordToFind);
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }
@@ -132,11 +126,10 @@ namespace WordSearchKataTests
         [TestMethod]
         public void FindDiagonalWordsInAllFourDirectionsReturnsListsOfLocations()
         {
-            char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
             new List<string> { "KITKAT", "TWIX", "MILKYWAY", "SNICKERS" }.ForEach(wordToFind =>
             {
                 var expectedLocations = locations[wordToFind];
-                var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
+                var returnedLocations = wordSearch.FindWord(wordToFind);
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }
