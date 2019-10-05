@@ -37,6 +37,15 @@ namespace WordSearchKata
             }
         }
 
+        public List<List<(int, int)>> FindAllWords()
+        {
+            var locations = new List<List<(int, int)>>();
+            foreach (var word in Words)
+                locations.Add(FindWord(word));
+
+            return locations;
+        }
+
         public List<(int, int)> FindWord(string word)
         {
             for (int row = 0; row < Grid.GetLength(0); row++)

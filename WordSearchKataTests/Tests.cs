@@ -133,5 +133,23 @@ namespace WordSearchKataTests
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }
+
+        [TestMethod]
+        public void FindAllWordsReturnsListsOfAllWordLocations()
+        {
+            foreach (var returnedLocations in wordSearch.FindAllWords())
+            {
+                bool matchFound = false;
+                foreach (var expectedLocations in locations.Values)
+                {
+                    if (returnedLocations.SequenceEqual(expectedLocations))
+                    {
+                        matchFound = true;
+                        break;
+                    }
+                }
+                Assert.IsTrue(matchFound);
+            }
+        }
     }
 }
