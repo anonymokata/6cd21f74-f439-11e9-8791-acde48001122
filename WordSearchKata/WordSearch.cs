@@ -37,11 +37,11 @@ namespace WordSearchKata
             }
         }
 
-        public List<List<(int, int)>> FindAllWords()
+        public Dictionary<string, List<(int, int)>> FindAllWords()
         {
-            var locations = new List<List<(int, int)>>();
+            var locations = new Dictionary<string, List<(int, int)>>();
             foreach (var word in Words)
-                locations.Add(FindWord(word));
+                locations.Add(word, FindWord(word));
 
             return locations;
         }
@@ -102,6 +102,37 @@ namespace WordSearchKata
                 }
             }
             return new List<(int, int)>();
+        }
+
+        public void Print(string path)
+        {
+            using (var file = File.OpenWrite(path))
+            using (var stream = new StreamWriter(file))
+            {
+                //print puzzle grid
+                for (int row = 0; row < Grid.GetLength(0); row++)
+                {
+                    for (int col = 0; col < Grid.GetLength(1); col++)
+                        stream.Write(Grid[col, row] + " ");
+
+                    stream.WriteLine();
+                }
+
+                //print words with list of (x, y) locations
+                var found = FindAllWords();
+                foreach (var word in found.Keys)
+                {
+                    stream.Write(word + ": ");
+                    for (int i = 0; i < found[word].Count; i++)
+                    {
+                        if (i > 0)
+                            stream.Write(", ");
+
+                        stream.Write(found[word][i]);
+                    }
+                    stream.WriteLine();
+                }
+            }
         }
     }
 }

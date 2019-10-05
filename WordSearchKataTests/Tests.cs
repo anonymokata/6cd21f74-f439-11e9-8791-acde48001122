@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordSearchKata;
@@ -137,19 +138,17 @@ namespace WordSearchKataTests
         [TestMethod]
         public void FindAllWordsReturnsListsOfAllWordLocations()
         {
-            foreach (var returnedLocations in wordSearch.FindAllWords())
-            {
-                bool matchFound = false;
-                foreach (var expectedLocations in locations.Values)
-                {
-                    if (returnedLocations.SequenceEqual(expectedLocations))
-                    {
-                        matchFound = true;
-                        break;
-                    }
-                }
-                Assert.IsTrue(matchFound);
-            }
+            var found = wordSearch.FindAllWords();
+            foreach (var word in found.Keys)
+                Assert.IsTrue(found[word].SequenceEqual(locations[word]));
+        }
+
+        [TestMethod]
+        public void PrintCreatesFile()
+        {
+            string file = "output.txt";
+            wordSearch.Print(file);
+            Assert.IsTrue(File.Exists(file));
         }
     }
 }
