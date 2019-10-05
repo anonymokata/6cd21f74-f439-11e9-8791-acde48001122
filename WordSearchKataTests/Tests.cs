@@ -102,7 +102,7 @@ namespace WordSearchKataTests
             var expectedLocations = locations[wordToFind];
 
             char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWordHorizontal(wordToFind, loadedLetters);
+            var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
 
@@ -113,7 +113,7 @@ namespace WordSearchKataTests
             var expectedLocations = locations[wordToFind];
 
             char[,] loadedLetters = WordSearch.GetGridFromFile("input.txt");
-            var returnedLocations = WordSearch.FindWordHorizontal(wordToFind, loadedLetters);
+            var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
             Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
         }
 
@@ -124,7 +124,7 @@ namespace WordSearchKataTests
             new List<string> { "REECES", "BUTTERFINGER" }.ForEach(wordToFind =>
             {
                 var expectedLocations = locations[wordToFind];
-                var returnedLocations = WordSearch.FindWordVertical(wordToFind, loadedLetters);
+                var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }
@@ -136,7 +136,7 @@ namespace WordSearchKataTests
             new List<string> { "KITKAT", "TWIX", "MILKYWAY", "SNICKERS" }.ForEach(wordToFind =>
             {
                 var expectedLocations = locations[wordToFind];
-                var returnedLocations = WordSearch.FindWordDiagonal(wordToFind, loadedLetters);
+                var returnedLocations = WordSearch.FindWord(wordToFind, loadedLetters);
                 Assert.IsTrue(returnedLocations.SequenceEqual(expectedLocations));
             });
         }

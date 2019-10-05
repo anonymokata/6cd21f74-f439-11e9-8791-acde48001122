@@ -41,131 +41,59 @@ namespace WordSearchKata
             }
         }
 
-        public static List<(int, int)> FindWordHorizontal(string word, char[,] grid)
+        public static List<(int, int)> FindWord(string word, char[,] grid)
         {
             for (int row = 0; row < grid.GetLength(0); row++)
             {
                 for (int col = 0; col < grid.GetLength(1); col++)
                 {
-                    //if first letter found and enough space on the line for the word to fit
-                    if (grid[row, col] == word[0])
-                    { 
-                        for (int direction = -1; direction <= 1; direction += 2)
+                    //if first letter found, search the eight directions for the remaining letters, otherwise move on
+                    if (grid[row, col] != word[0])
+                        continue;
+
+                    //-1: left-right, 0: constant, 1: right-left
+                    for (int directionX = -1; directionX <= 1; directionX++)
+                    {
+                        //-1: bottom-top, 0: constant, 1: top-bottom
+                        for (int directionY = -1; directionY <= 1; directionY++)
                         {
-                            var locations = new List<(int, int)>() { (col, row) };
-                            int end = col + (word.Length - 1) * direction;
-                            int left = Math.Min(col, end);
-                            int right = Math.Max(col, end);
+                            //skip this iteration if both directions are 0 (not a valid word orientation)
+                            if (directionX == 0 && directionY == 0)
+                                continue;
+
+                            int endX = col + (word.Length - 1) * directionX;
+                            int endY = row + (word.Length - 1) * directionY;
+                            int left = Math.Min(col, endX);
+                            int right = Math.Max(col, endX);
+                            int top = Math.Min(row, endY);
+                            int bottom = Math.Max(row, endY);
 
                             //skip check if word can't fit within bounds in given direction
-                            if (left >= 0 && right < grid.GetLength(1))
-                            {
-                                bool found = true;
-                                for (int i = 1; i < word.Length; i++)
-                                {
-                                    int newCol = direction == 1 ? left + i : right - i;
-                                    if (grid[row, newCol] != word[i])
-                                    {
-                                        found = false;
-                                        break;
-                                    }
-                                    locations.Add((newCol, row));
-                                }
+                            if (left < 0 || right >= grid.GetLength(1) || top < 0 || bottom >= grid.GetLength(0))
+                                continue;
 
-                                if (found)
-                                    return locations;
-                            }
-                        }
-                    }
-                }
-            }
-            return new List<(int, int)>();
-        }
-
-        public static List<(int, int)> FindWordVertical(string word, char[,] grid)
-        {
-            for (int row = 0; row < grid.GetLength(0); row++)
-            {
-                for (int col = 0; col < grid.GetLength(1); col++)
-                {
-                    //if first letter found and enough space on the line for the word to fit
-                    if (grid[row, col] == word[0])
-                    {
-                        for (int direction = -1; direction <= 1; direction += 2)
-                        {
                             var locations = new List<(int, int)>() { (col, row) };
-                            int end = row + (word.Length - 1) * direction;
-                            int top = Math.Min(row, end);
-                            int bottom = Math.Max(row, end);
-
-                            //skip check if word can't fit within bounds in given direction
-                            if (top >= 0 && bottom < grid.GetLength(0))
+                            bool found = true;
+                            for (int i = 1; i < word.Length; i++)
                             {
-                                bool found = true;
-                                for (int i = 1; i < word.Length; i++)
+                                int newCol = directionX == 0 ? left : left + i;
+                                if (directionX < 0)
+                                    newCol = right - i;
+
+                                int newRow = directionY == 0 ? top : top + i;
+                                if (directionY < 0)
+                                    newRow = bottom - i;
+
+                                if (grid[newRow, newCol] != word[i])
                                 {
-                                    int newRow = direction == 1 ? top + i : bottom - i;
-                                    if (grid[newRow, col] != word[i])
-                                    {
-                                        found = false;
-                                        break;
-                                    }
-                                    locations.Add((col, newRow));
+                                    found = false;
+                                    break;
                                 }
-
-                                if (found)
-                                    return locations;
+                                locations.Add((newCol, newRow));
                             }
-                        }
-                    }
-                }
-            }
-            return new List<(int, int)>();
-        }
 
-        public static List<(int, int)> FindWordDiagonal(string word, char[,] grid)
-        {
-            for (int row = 0; row < grid.GetLength(0); row++)
-            {
-                for (int col = 0; col < grid.GetLength(1); col++)
-                {
-                    //if first letter found and enough space on the line for the word to fit
-                    if (grid[row, col] == word[0])
-                    {
-                        for (int directionX = -1; directionX <= 1; directionX += 2)
-                        {
-                            for (int directionY = -1; directionY <= 1; directionY += 2)
-                            {
-                                var locations = new List<(int, int)>() { (col, row) };
-                                int endX = col + (word.Length - 1) * directionX;
-                                int endY = row + (word.Length - 1) * directionY;
-
-                                int left = Math.Min(col, endX);
-                                int right = Math.Max(col, endX);
-                                int top = Math.Min(row, endY);
-                                int bottom = Math.Max(row, endY);
-
-                                //skip check if word can't even fit within bounds in given direction
-                                if (left >= 0 && right < grid.GetLength(1) && top >= 0 && bottom < grid.GetLength(0))
-                                {
-                                    bool found = true;
-                                    for (int i = 1; i < word.Length; i++)
-                                    {
-                                        int newCol = directionX == 1 ? left + i : right - i;
-                                        int newRow = directionY == 1 ? top + i : bottom - i;
-
-                                        if (grid[newRow, newCol] != word[i])
-                                        {
-                                            found = false;
-                                            break;
-                                        }
-                                        locations.Add((newCol, newRow));
-                                    }
-
-                                    if (found)
-                                        return locations;
-                                }
-                            }
+                            if (found)
+                                return locations;
                         }
                     }
                 }
