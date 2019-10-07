@@ -4,6 +4,13 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordSearchKata;
 
+/*
+File: Tests.cs 
+Name: Darwin Baker
+Date: 10/04/2019
+Desc: Tests the functionality of WordSearchKata/WordSearch.cs
+*/
+
 namespace WordSearchKataTests
 {
     [TestClass]

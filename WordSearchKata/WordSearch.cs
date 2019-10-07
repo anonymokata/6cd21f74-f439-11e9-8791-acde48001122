@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+/*
+File: WordSearch.cs 
+Name: Darwin Baker
+Date: 10/04/2019
+Desc: Loads/stores a wordsearch puzzle and list of contained words, finds words, and prints out word locations
+*/
+
 namespace WordSearchKata
 {
     public class WordSearch
