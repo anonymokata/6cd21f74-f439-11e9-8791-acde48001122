@@ -1,5 +1,5 @@
 # WordSearchKata
-This kata is an exercise in test-driven development to write a class capable of finding words in a word search puzzle.
+This kata is an exercise in test-driven development to write a class capable of finding words in a word search puzzle. This implementation is written in C# and makes use of MSTest.TestFramework for testing.
 
 To build the solution, simply run "build.bat" or run the following command:
 
